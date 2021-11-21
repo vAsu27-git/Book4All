@@ -1,0 +1,367 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <style>
+    body {
+      background-color: whitesmoke;
+    }
+
+    .header-button {
+      margin-left: 10px;
+    }
+
+    .icon-profile {
+      margin-right: 10px;
+      height: 35px;
+      width: 35px;
+    }
+
+    #navbar {
+      display: flex;
+      align-items: center;
+      position: relative;
+      top: 0px;
+      left: 0px;
+    }
+
+    #navbar::before {
+      content: "";
+      background-color: blueviolet;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+
+    #home {
+      display: flex;
+      flex-direction: column;
+      padding-top: 70px;
+      align-items: center;
+      color: white;
+      height: 100px;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    #home::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background: url({%static 'bg5.jpg' %}) no-repeat center center/cover;
+      width: 100%;
+      height: 600px;
+      z-index: -1;
+      opacity: 0.8;
+    }
+
+    #home button {
+      margin: 20px 10px;
+      padding: 10px 25px;
+      border-radius: 5px;
+      border: 2px solid whitesmoke;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: bold;
+      color: whitesmoke;
+    }
+
+    #home button:hover {
+      background-color: green;
+      border: 2px solid green;
+    }
+
+
+    .h-primary {
+      font-size: 2.8rem;
+      padding: 10px 10px;
+      font-family: 'Baloo 2', cursive;
+    }
+
+    .color-nav-item {
+      color: white !important;
+    }
+
+    .book-item {
+      margin-top: 20px !important;
+    }
+
+    .navbar-light .navbar-toggler {
+      border-color: white;
+    }
+
+    #center-book-item {
+      text-align: -webkit-center;
+      margin-bottom: 20px;
+      float: left;
+    }
+
+    .card-body {
+      position: absolute;
+      left: 46%;
+      top: 0%;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      height: 200px;
+      width: 188px;
+      padding: 0px !important;
+    }
+
+    .card {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+      transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+      cursor: pointer;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    }
+
+    .bookname h5 {
+      font-size: 1.2rem;
+    }
+
+    .bookname {
+      height: 72px;
+      padding: 10px 10px 0px 10px;
+    }
+
+    .card-img-top {
+      width: 46% !important;
+      border-top-left-radius: calc(.25rem - 1px);
+      border-top-right-radius: calc(.25rem - 1px);
+    }
+
+    .location {
+      height: 75px;
+      width: 188px;
+      padding-top: 10px;
+    }
+
+    .card-href {
+      text-decoration: none;
+      color: black;
+    }
+
+    .cart {
+      height: 30px;
+      width: 30px;
+      position: absolute;
+      top: 5;
+      left: 20;
+      z-index: 2;
+    }
+    
+    #a-cart {
+      height: 0px;
+      width: 0px;
+    }
+
+
+    @media screen and (max-width: 990px) {
+      .header-button {
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-left: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+
+      .h-secondary {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      .header-button {
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-left: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+
+      .h-secondary {
+        font-size: 1.2rem;
+      }
+
+      .h-primary {
+        font-size: 1.9rem;
+        padding: 10px 10px;
+        font-family: 'Baloo 2', cursive;
+      }
+
+      #home::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background: url({%static 'less450px.jpg' %}) no-repeat center center/cover;
+        width: 100%;
+        height: 600px;
+        z-index: -1;
+        opacity: 0.8;
+      }
+    }
+
+    @media screen and (max-width: 360px) {
+      .card-body {
+        position: absolute;
+        left: 46%;
+        top: 0%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 200px;
+        width: 176px;
+        padding: 0px !important;
+      }
+
+      .location {
+        height: 75px;
+        width: 176px;
+      }
+
+      .card-body h4 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .card-body {
+        position: absolute;
+        left: 46%;
+        top: 0%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 200px;
+        width: 155px;
+        padding: 0px !important;
+      }
+
+      .location {
+        height: 75px;
+        width: 155px;
+      }
+
+      .card-body h4 {
+        font-size: 1rem;
+      }
+
+      .card-body button {
+        font-size: 0.8rem;
+
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand nav-font-co color-nav-item" href="">Book4All</a>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link nav-font-co color-nav-item" href="/home/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link color-nav-item" href="#">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled color-nav-item" href="#">Core Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled color-nav-item" href="#">About App</a>
+          </li>
+        </ul>
+    </nav>
+  </header>
+
+
+ {% if bookdetails %}
+  <div class="container-fluid book-item">
+    <div class="row" id="center-item">
+      {% for x in bookdetails %}
+      <div class="col-lg-3 col-md-6 col-sm-12" id="center-book-item">
+        <a href="/addcart/{{x.7}}">
+          <div class="cart"><img src="{%static 'cart.png' %}" height="30px" width="30px"></div>
+        </a>
+        <a href="/bookdetails/{{x.7}}" class="card-href">
+          <div class="card">
+            <img class="card-img-top" src='{{x.2}}' alt="Card image cap" height="200px" width="74px">
+            <div class="card-body">
+              <div class="bookname">
+                <h5 class="mb-0">{{x.0}}</h5>
+                <div class="mb-1 text-muted">{{x.1}}</div>
+              </div>
+              <div class="mb-1 text">Buy : &#8377;{{x.3}}</div>
+              <div class="mb-1 text">Rent : &#8377;{{x.4}} {{x.5}}</div>
+              <div class="location">
+                <div class="mb-1 text-muted"><img src="{%static 'map-pin.png' %}" height="18px" width="18px"> {{x.6}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row" id="center-item">
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% endif %}
+
+  <!-- bootstrap js -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
