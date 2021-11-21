@@ -1,0 +1,459 @@
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boo4All</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <style>
+    .header-button {
+      margin-left: 10px;
+    }
+
+    .carousel-img {
+      height: 600px;
+    }
+
+    .book-item {
+      margin-top: 40px;
+    }
+
+    #navbar {
+      background: trasparant;
+      position: absolute;
+      z-index: 1;
+      display: flex;
+      width: 100%;
+    }
+
+    .nav-font-co {
+      color: white !important;
+    }
+
+    .message-margin-alert {
+      margin-top: 60px;
+      z-index: 2;
+      position: absolute;
+      width: 100%;
+    }
+
+    .email-instruction {
+      color: red !important;
+    }
+    .card {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+      transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+      cursor: pointer;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    }
+
+    .btn-verify {
+      padding: 4px 30px;
+      font-size: 0.9rem;
+    }
+
+    #center-book-item {
+      text-align: -webkit-center;
+      margin-bottom: 20px;
+      float: left;
+    }
+
+  .card-body {
+      position: absolute;
+      left: 46%;
+      top: 0%;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      height: 200px;
+      width: 188px;
+      padding: 0px !important;
+    }
+    .card-img-top {
+      width: 46% !important;
+      border-top-left-radius: calc(.25rem - 1px);
+      border-top-right-radius: calc(.25rem - 1px);
+    }
+.bookname {
+      height: 72px;
+      padding: 10px 10px 0px 10px;
+    }
+    .location {
+      height: 75px;
+      width: 188px;
+      padding-top: 10px;
+    }
+    .color-nav-item{
+      color:white !important;
+    }
+
+    @media screen and (max-width: 990px) {
+      .header-button {
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      .carousel-img1 {
+        content:url({%static 'l1.jpg' %});
+      }
+
+      .carousel-img2 {
+        content:url({%static 'l2.jpg' %});
+      }
+
+      .carousel-img3 {
+        content:url({%static 'l3.jpg' %});
+      }
+
+      .carousel-img {
+        height: 400px;
+      }
+    }
+
+    @media screen and (max-width: 360px) {
+       .card-body {
+        position: absolute;
+        left: 46%;
+        top: 0%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 200px;
+        width: 176px;
+        padding: 0px !important;
+      }
+      .location {
+        height: 75px;
+        width: 176px;
+      }
+
+      .card-body h4 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .card-body {
+        position: absolute;
+        left: 46%;
+        top: 0%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 200px;
+        width: 155px;
+        padding: 0px !important;
+      }
+      .card-body h4 {
+        font-size: 1rem;
+      }
+      .location {
+        height: 75px;
+        width: 155px;
+      }
+    }
+  </style>
+</head>
+
+<!-- navbar  -->
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light " id="navbar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand nav-font-co" href="">Book4All</a>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link nav-font-co" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link color-nav-item" href="#">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled color-nav-item" href="#">Core Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled color-nav-item" href="#">About App</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search Book Name" aria-label="Search">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button><br>
+        </form>
+        <button type="button" class="btn btn-success col-md-5 col-lg-1 col-sm-12 header-button" data-toggle="modal"
+          data-target="#loginModal">LogIn</button>
+        <button type="button" class="btn btn-success col-md-5 col-lg-1 col-sm-12 header-button" data-toggle="modal"
+          data-target="#signupModal">SignUp</button>
+      </div>
+    </nav>
+  </header>
+
+
+
+
+  <!-- django messages contrib libaray -->
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info alert-dismissible fade show message-margin-alert" role="alert">
+    {{message}} {% if verify %} <br> <span style="color:red;">!! Important, if you haven't received the verification
+      email then click verify button and send
+      mail ---> </span> <button class="btn btn-outline-danger btn-verify" data-toggle="modal"
+      data-target="#verifyModel"> Verify </button> {% endif %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+
+
+  <!--verify email address mail-->
+  <section>
+    <div class="modal fade" id="verifyModel" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Write email and password and send verification mail</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action='/verifymail/'>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Enter email" name="emailverify">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="passwordverify"
+                  placeholder="Password">
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Get mail</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!--Login Modal -->
+  <section>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login To Book4All</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action='/home/'>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Enter email" name="emaillogin">
+                <small id="emailHelp" class="form-text text-muted email-instruction">hope you did verify your email
+                  address</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="passwordlogin"
+                  placeholder="Password">
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!--Signup Modal -->
+  <section>
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Signup To Book4All</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/signup/">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputPassword1">Name</label>
+                <input type="text" class="form-control" id="exampleInputName" placeholder="Name" name="nameup" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  name="emailup" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2, 4}$" required>
+                <small id="emailHelp" class="form-text text-muted email-instruction">!! Important, write a valid email
+                  address because we will send an email verification link to your Gmail account
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Mobile Number</label>
+                <input type="text" class="form-control" id="exampleInputNumber" placeholder="Mobile" name="mobileup"
+                  pattern="[7-9]{1}[0-9]{9}" title="Phone number with 7-9 and remaing 9 digit with 0-9" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                  name="passup" minlength="6" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                  name="confirmpassup" minlength="6" required>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Agree with Terms & Condition</label>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Signup</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- carousel item  -->
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000">
+      <div class="carousel-inner crl">
+        <div class="carousel-item active">
+          <img class="d-block w-100 carousel-img carousel-img1" src="{%static 'b1.jpg' %}" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100 carousel-img carousel-img2" src="{%static 'b2.jpg' %}" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100 carousel-img carousel-img3" src="{%static 'b3.jpg' %}" alt="Third slide">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% if bookdetails %}
+  <div class="container-fluid book-item">
+    <div class="row" id="center-item">
+      {% for x in bookdetails %}
+      <div class="col-lg-3 col-md-6 col-sm-12" id="center-book-item">
+        <div class="card">
+          <img class="card-img-top" src='{{x.2}}' alt="Card image cap" height="200px" width="74px">
+          <div class="card-body">
+            <div class="bookname">
+              <h5 class="mb-0">{{x.0}}</h5>
+              <div class="mb-1 text-muted">{{x.1}}</div>
+            </div>
+            <div class="mb-1 text">Buy : &#8377;{{x.3}}</div>
+            <div class="mb-1 text">Rent : &#8377;{{x.4}} {{x.5}}</div>
+            <div class="location">
+              <div class="mb-1 text-muted"><img src="{%static 'map-pin.png' %}" height="18px" width="18px"> {{x.6}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row" id="center-item">
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% endif %}
+
+
+
+
+
+  <!-- bootstrap script  -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script>
+    {% if msg %}
+    alert('{{msg}}');
+    {% endif %}
+  </script>
+</body>
+
+</html>
