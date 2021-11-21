@@ -1,0 +1,155 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boo4All</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        .header-button {
+            margin-left: 10px;
+        }
+
+        .icon-profile {
+            margin-right: 10px;
+            height: 35px;
+            width: 35px;
+        }
+
+        .card {
+            text-align: center !important;
+            align-items: center !important;
+            padding: 50px;
+            margin-left: 200px;
+            margin-right: 200px;
+            background-color: whitesmoke;
+        }
+
+        .main-sec {
+            margin-top: 30px;
+        }
+
+        .card-body {
+            text-align: -webkit-left !important;
+        }
+
+        .card-body-center {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 990px) {
+            .header-button {
+                margin: 10px;
+            }
+
+            .card {
+                text-align: center !important;
+                align-items: center !important;
+                padding: 50px;
+                margin-left: 100px;
+                margin-right: 100px;
+                background-color: whitesmoke;
+            }
+
+            .card-body h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .header-button {
+                margin: 10px;
+            }
+
+            .card {
+                text-align: center !important;
+                align-items: center !important;
+                padding: 50px;
+                margin-left: 10px;
+                margin-right: 10px;
+                background-color:whitesmoke;
+            }
+
+            .card-body h2 {
+                font-size: 15px;
+            }
+            .card-body-center button{
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <input type="image" src="{%static 'man_icon.png' %}" class="icon-profile"
+                onclick="location.href='{% url 'profile' %}'">
+            <a class="navbar-brand" href="#">Book4All</a>
+
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link color-nav-item" href="#">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="#">Core Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="#">About App</a>
+                    </li>
+                </ul>
+
+                <button type="button" class="btn btn-success col-md-5 col-lg-1 col-sm-12 header-button"
+                    onclick="location.href='{% url 'logout' %}'">Logout</button>
+
+            </div>
+        </nav>
+    </header>
+
+    <section class="main-sec">
+        <div class="card">
+            {% if flag %}
+            <img src='{{img}}' alt="" width="300px" height="300px" style="border-radius: 50%;">
+            {% else %}
+            <img src="{%static 'man_icon.png' %}" alt="" width="300px" height="300px" style="border-radius: 50%;">
+            {% endif %}
+            <div class="card-body">
+                <h2>Email: {{email}}</h2>
+                <h2>Name: {{name}}</h2>
+                <h2>Phone: {{mob}}</h2>
+                <div class="card-body-center">
+                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'editprofile' %}'">Edit Profile</button>
+                    <button type="button" class="btn btn-primary">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- bootstrap script  -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
