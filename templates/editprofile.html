@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        .header-button {
+            margin-left: 10px;
+        }
+
+        .icon-profile {
+            margin-right: 10px;
+            height: 35px;
+            width: 35px;
+        }
+
+        .center {
+            display: flex;
+            text-align: center !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        .border-col {
+            flex-direction: column;
+        }
+
+        #container-1 {
+            padding-top: 30px;
+            grid-area: con-1;
+            width: 483px;
+        }
+
+        #container-2 {
+            grid-area: con-2;
+            border-left: 2px solid black;
+            display: flex;
+            justify-content: center;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            cursor: pointer;
+            color: white;
+            background-color: white;
+            margin-top: 10px;
+            float: left;
+        }
+
+        .card {
+            text-align: center !important;
+            align-items: center !important;
+            padding: 50px;
+            margin-left: 200px;
+            margin-right: 200px;
+            background-color: whitesmoke;
+        }
+
+        .main-sec {
+            margin-top: 30px;
+        }
+
+        .card-body {
+            text-align: -webkit-left !important;
+        }
+
+        .card-body-center {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        @media screen and (max-width: 990px) {
+            .header-button {
+                margin: 10px;
+            }
+
+            .card {
+                text-align: center !important;
+                align-items: center !important;
+                padding: 50px;
+                margin-left: 100px;
+                margin-right: 100px;
+                background-color: whitesmoke;
+            }
+
+            .card-body h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .header-button {
+                margin: 10px;
+            }
+
+            .card {
+                text-align: center !important;
+                align-items: center !important;
+                padding: 50px;
+                margin-left: 10px;
+                margin-right: 10px;
+                background-color: whitesmoke;
+            }
+
+            .card-body h2 {
+                font-size: 15px;
+            }
+
+            .card-body-center button {
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <section class="main-sec">
+        <div class="card">
+            <div class="container" id="container-1">
+                <div class="row">
+                    <div class="col border-col center">
+                        <h3>Click and Upload Book Image</h3>
+                        <label class="custom-file-upload">
+                            <input type="file" accept="image/*" onchange="loadFile(event)" name="files[]" id="files">
+                            <img id="output" src="{%static 'man_icon.png' %}" height="200px" width="200px" />
+                        </label>
+                        <button class="btn btn-primary btn-primary-1" type="button"
+                            onclick="uploadimage()">UPLOAD</button>
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="url" id="url">
+              </form>
+
+            <div class="card-body">
+                <h2>Email: {{email}}</h2>
+                <h2>Name: {{name}}</h2>
+                <h2>Phone: {{mob}}</h2>
+                <div class="card-body-center">
+                    <button type="button" class="btn btn-primary">UPDATE</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="{% static '/js/selldata.js' %}"></script>
+
+
+
+    <!-- bootstrap script  -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
