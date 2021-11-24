@@ -277,12 +277,35 @@ def bookalldetails(request,id):
         bookname = database.child('books4All').child('booksDetails').child(id).child('bookname').get().val()
         authorname = database.child('books4All').child('booksDetails').child(id).child('authorname').get().val()
         imgUrl = database.child('books4All').child('booksDetails').child(id).child('imgUrl').get().val()
+        booktype = database.child('books4All').child('booksDetails').child(id).child('booktype').get().val()
         sellingprice = database.child('books4All').child('booksDetails').child(id).child('sellingprice').get().val()
         rentingprice = database.child('books4All').child('booksDetails').child(id).child('rentingprice').get().val()
         renttime = database.child('books4All').child('booksDetails').child(id).child('renttime').get().val()
         address = database.child('books4All').child('booksDetails').child(id).child('address').get().val()
+        wp = database.child('books4All').child('booksDetails').child(id).child('wpnumber').get().val()
+        zipcode = database.child('books4All').child('booksDetails').child(id).child('zipcode').get().val()
+        city = database.child('books4All').child('booksDetails').child(id).child('city').get().val()
+        state = database.child('books4All').child('booksDetails').child(id).child('state').get().val()
+        myUID = database.child('books4All').child('booksDetails').child(id).child('myUID').get().val()
+
+
+        email = database.child('books4All').child('userData').child(myUID).child('email').get().val()
+        name = database.child('books4All').child('userData').child(myUID).child('name').get().val()
+        phone = database.child('books4All').child('userData').child(myUID).child('phone').get().val()
+        flag = False
+
+        try:
+            profileurl = database.child('books4All').child('userData').child(myUID).child('profileurl').get().val()
+            flag = True
+            if profileurl == None:
+                flag = False
+        except:
+            pass
+
         return render(request, 'bookAlldetails.html',{'bookname':bookname,'authorname':authorname,'imgUrl':imgUrl,'sellingprice':sellingprice,
-                                                      'rentingprice':rentingprice,'renttime':renttime,'address':address})
+                                                      'rentingprice':rentingprice,'renttime':renttime,'address':address,'booktype':booktype,
+                                                      'wp':wp,'zipcode':zipcode,'city':city,'state':state,'flag':flag,'img':profileurl,
+                                                      'email':email,'name':name,'mob':phone})
 
     except:
         messages.info(request, "oops somthing went wong! Please login")
