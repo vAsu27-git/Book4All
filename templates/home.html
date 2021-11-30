@@ -11,6 +11,18 @@
 
 
   <style>
+    .rentdiv {
+      color: blue;
+      position: absolute;
+      width: 349px;
+      padding: 10px;
+      top: 77px;
+      left: 16px;
+      background: turquoise;
+      text-align: center;
+      z-index: 3;
+    }
+
     body {
       background-color: whitesmoke;
     }
@@ -401,15 +413,17 @@
         </div>
         <div class="form-group-submit col-md-4 col-lg-3">
           <button type="submit" class="btn btn-primary">Search</button>
+          <button type="button" class="btn btn-primary" onclick="location.href='{% url 'seeAll' %}'">Show All</button>
         </div>
       </div>
     </form>
   </div>
 
-
-
   {% if bookdetails %}
   <div class="container-fluid book-item">
+    {% if cityLogin %}
+    <h4>Available Books in Your Location : {{cityLogin}}, {{stateLogin}}</h4>
+    {% endif %}
     <div class="row" id="center-item">
       {% for x in bookdetails %}
       <div class="col-lg-3 col-md-6 col-sm-12" id="center-book-item">
@@ -417,6 +431,10 @@
           <div class="cart"><img src="{%static 'cart.png' %}" height="30px" width="30px"></div>
         </a>
         <a href="/bookdetails/{{x.7}}" class="card-href">
+          {% if x.8 %}
+            <div class="rentdiv">Currently Unavailable</div>
+          {% endif %}
+
           <div class="card">
             <img class="card-img-top" src='{{x.2}}' alt="Card image cap" height="200px" width="74px">
             <div class="card-body">

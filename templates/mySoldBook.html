@@ -108,6 +108,14 @@
       float: left;
     }
 
+    .mybutton button{
+    border-radius: 5px;
+    border: 2px solid whitesmoke;
+    font-weight: bold;
+    color: black;
+      font-size: 0.8rem;
+    }
+
     .card-body {
       position: absolute;
       left: 46%;
@@ -158,6 +166,7 @@
       width: 46% !important;
       border-top-left-radius: calc(.25rem - 1px);
       border-top-right-radius: calc(.25rem - 1px);
+      margin-right: 188px;
     }
 
     .location {
@@ -292,6 +301,8 @@
         aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <input type="image" src="{%static 'man_icon.png' %}" class="icon-profile"
+        onclick="location.href='{% url 'profile' %}'">
       <a class="navbar-brand nav-font-co color-nav-item" href="">Book4All</a>
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
@@ -301,6 +312,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
           </li>
           <li class="nav-item">
             <a class="nav-link color-nav-item" href="#">Contact Us</a>
@@ -321,8 +335,8 @@
     <div class="row" id="center-item">
       {% for x in bookdetails %}
       <div class="col-lg-3 col-md-6 col-sm-12" id="center-book-item">
-        <a href="/addcart/{{x.7}}">
-          <div class="cart"><img src="{%static 'cart.png' %}" height="30px" width="30px"></div>
+        <a href="/delete/{{x.7}}">
+          <div class="cart"><img src="{%static 'delete.png' %}" height="30px" width="30px"></div>
         </a>
         <a href="/bookdetails/{{x.7}}" class="card-href">
           <div class="card">
@@ -335,7 +349,7 @@
               <div class="mb-1 text">Buy : &#8377;{{x.3}}</div>
               <div class="mb-1 text">Rent : &#8377;{{x.4}} {{x.5}}</div>
               <div class="location">
-                <div class="mb-1 text-muted"><img src="{%static 'map-pin.png' %}" height="18px" width="18px"> {{x.6}}
+                <div class="mb-1 text-muted mybutton"> <a href="/addrent/{{x.7}}"><button>Add Rent</button></a> &nbsp; <a href="/removerent/{{x.7}}"><button>Remove Rent</button></a>
                 </div>
               </div>
             </div>
