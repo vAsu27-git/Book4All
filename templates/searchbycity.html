@@ -350,6 +350,44 @@
     <form class="filter" method="POST" action="/home/search/">
       {% csrf_token %}
       <div class="row">
+        <div class="form-group col-md-4 col-lg-3">
+          <label for="ForRent">Add Buy or Rent</label>
+          <select id="ForRent" class="form-control state-city" name="buyrent">
+            <option value="borr">Select buy or rent</option>
+            <option value="Buy">Buy</option>
+            <option value="Rent">Rent</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4 col-lg-3">
+          <label for="exampleInputNumber">Lower Price</label>
+                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Add Lower Price"
+                  name="Lower">
+        </div>
+        <div class="form-group col-md-4 col-lg-3">
+          <label for="exampleInputNumber">Upper Price</label>
+                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Add Upper Price"
+                  name="Upper">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4 col-lg-3">
+          <label for="inputbooktype">Book Type</label>
+          <select id="inputbooktype" class="form-control state-city" name="booktype">
+            <option value="sall">Select All</option>
+            <option value="Myth">Myth</option>
+            <option value="Romance">Romance</option>
+            <option value="Novel">Novel</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Biography">Biography</option>
+            <option value="Fairy-Tale">Fairy-Tale</option>
+            <option value="Drama">Drama</option>
+            <option value="History">History</option>
+            <option value="Western">Western</option>
+            <option value="Poems">Poems</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
           <div class="form-group col-md-4 col-lg-3">
             <label for="inputState">State</label>
             <select class="form-control state-city" id="inputState" name="state">
@@ -401,7 +439,7 @@
           </div>
         <div class="form-group-submit col-md-4 col-lg-3">
           <button type="submit" class="btn btn-primary">Search</button>
-          <button type="button" class="btn btn-primary" onclick="location.href='{% url 'home' %}'">Show All</button>
+          <button type="button" class="btn btn-primary" onclick="location.href='{% url 'seeAll' %}'">Show All</button>
         </div>
       </div>
     </form>

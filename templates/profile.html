@@ -102,6 +102,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
                     </li>
+                     <li class="nav-item">
+            <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
+          </li>
                     <li class="nav-item">
                         <a class="nav-link color-nav-item" href="#">Contact Us</a>
                     </li>
@@ -122,7 +128,7 @@
 
     <section class="main-sec">
         <div class="card">
-            {% if flag %}
+            {% if img %}
             <img src='{{img}}' alt="" width="300px" height="300px" style="border-radius: 50%;">
             {% else %}
             <img src="{%static 'man_icon.png' %}" alt="" width="300px" height="300px" style="border-radius: 50%;">

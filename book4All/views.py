@@ -1,6 +1,7 @@
 import pyrebase
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from ruamel_yaml.util import RegExp
 
 firebaseConfig = {
     "apiKey": "AIzaSyCbUntIsZducvP0bpT9O6kLLn53o2Q--Ak",
@@ -15,6 +16,8 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 authe = firebase.auth()
 database = firebase.database()
+firebaseStorage = firebase.storage()
+
 
 
 def main(request):
@@ -79,7 +82,15 @@ def login(request):
 
     try:
         idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+        cityget = database.child('books4All').child('userData').child(a).child('city').get().val()
+        stateget = database.child('books4All').child('userData').child(a).child('state').get().val()
+
+        flagCity = True;
+
         bookdetails = database.child('books4All').child('booksDetails').shallow().get().val()
+
 
         # convert dict to list and get value
         listOfBookdetail = []
@@ -89,35 +100,45 @@ def login(request):
         bookdetails_row = []
         for i in listOfBookdetail:
             col = []
-            bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
-            authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
-            imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
-            sellingprice = database.child('books4All').child('booksDetails').child(i).child('sellingprice').get().val()
-            rentingprice = database.child('books4All').child('booksDetails').child(i).child('rentingprice').get().val()
-            renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
-            address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
-            key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
 
-            if len(bookname) > 14:
-                bookname = bookname[0:14] + '..'
+            city = database.child('books4All').child('booksDetails').child(i).child('city').get().val()
+            state = database.child('books4All').child('booksDetails').child(i).child('state').get().val()
+            if city == cityget and state == stateget:
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+                addrent = database.child('books4All').child('booksDetails').child(i).child('addrent').get().val()
+                print(addrent)
 
-            if len(authorname) > 15:
-                authorname = authorname[0:15] + '..'
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
 
-            if len(address) > 24:
-                address = address[0:24] + '..'
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
 
-            col.append(bookname)
-            col.append(authorname)
-            col.append(imgUrl)
-            col.append(sellingprice)
-            col.append(rentingprice)
-            col.append(renttime)
-            col.append(address)
-            col.append(key)
-            bookdetails_row.append(col)
+                if len(address) > 24:
+                    address = address[0:24] + '..'
 
-        return render(request, 'home.html',{'bookdetails':bookdetails_row})
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                col.append(addrent)
+                bookdetails_row.append(col)
+
+        return render(request, 'home.html',{'bookdetails':bookdetails_row,'cityLogin':cityget,'stateLogin':stateget})
     except:
         return redirect('/')
 
@@ -152,6 +173,8 @@ def signup(request):
         mobileV = request.POST.get('mobileup')
         passV = request.POST.get('passup')
         confirmV = request.POST.get('confirmpassup')
+        stateV = request.POST.get('state')
+        cityV = request.POST.get('city')
 
         if passV != confirmV:
             message = "password and confirm password does not match, please write properly !!!"
@@ -167,6 +190,8 @@ def signup(request):
                     'phone':mobileV,
                     'email':emailV,
                     'password':passV,
+                    'state':stateV,
+                    'city':cityV
                 }
                 database.child('books4All').child('userData').child(uid).set(data)
                 messages.info(request, "Check your email and verify, after login")
@@ -192,25 +217,12 @@ def profile(request):
         idtoken = request.session['uid']
         a = authe.get_account_info(idtoken)
         a = a['users'][0]['localId']
-        userdata = database.child('books4All').child('userData').child(a).shallow().get().val()
+        name = database.child('books4All').child('userData').child(a).child('name').get().val()
+        email = database.child('books4All').child('userData').child(a).child('email').get().val()
+        phone = database.child('books4All').child('userData').child(a).child('phone').get().val()
+        img = database.child('books4All').child('userData').child(a).child('profileurl').get().val()
 
-        # convert dict to list and get value
-        listOfuserdata = []
-        for i in userdata:
-            value = database.child('books4All').child('userData').child(a).child(i).get().val()
-            listOfuserdata.append(value)
-
-        flag = False
-        if len(listOfuserdata) == 5:
-            flag = True
-
-        if len(listOfuserdata) == 4:
-            x = listOfuserdata[1]
-            listOfuserdata[1] = listOfuserdata[0]
-            listOfuserdata[0] = x
-
-
-        return render(request,'profile.html',{'name':listOfuserdata[0],'email':listOfuserdata[1],'mob':listOfuserdata[3],'img':listOfuserdata[2],'flag':flag})
+        return render(request,'profile.html',{'name':name,'email':email,'mob':phone,'img':img})
     except:
         messages.info(request, "oops!! somthing went wrong, Please login")
         return redirect('/')
@@ -236,7 +248,6 @@ def sellbook(request):
             url = request.POST.get('url');
             city = request.POST.get('city');
             state = request.POST.get('state');
-
 
             if url:
                 data = {
@@ -277,12 +288,35 @@ def bookalldetails(request,id):
         bookname = database.child('books4All').child('booksDetails').child(id).child('bookname').get().val()
         authorname = database.child('books4All').child('booksDetails').child(id).child('authorname').get().val()
         imgUrl = database.child('books4All').child('booksDetails').child(id).child('imgUrl').get().val()
+        booktype = database.child('books4All').child('booksDetails').child(id).child('booktype').get().val()
         sellingprice = database.child('books4All').child('booksDetails').child(id).child('sellingprice').get().val()
         rentingprice = database.child('books4All').child('booksDetails').child(id).child('rentingprice').get().val()
         renttime = database.child('books4All').child('booksDetails').child(id).child('renttime').get().val()
         address = database.child('books4All').child('booksDetails').child(id).child('address').get().val()
+        wp = database.child('books4All').child('booksDetails').child(id).child('wpnumber').get().val()
+        zipcode = database.child('books4All').child('booksDetails').child(id).child('zipcode').get().val()
+        city = database.child('books4All').child('booksDetails').child(id).child('city').get().val()
+        state = database.child('books4All').child('booksDetails').child(id).child('state').get().val()
+        myUID = database.child('books4All').child('booksDetails').child(id).child('myUID').get().val()
+
+
+        email = database.child('books4All').child('userData').child(myUID).child('email').get().val()
+        name = database.child('books4All').child('userData').child(myUID).child('name').get().val()
+        phone = database.child('books4All').child('userData').child(myUID).child('phone').get().val()
+        flag = False
+
+        try:
+            profileurl = database.child('books4All').child('userData').child(myUID).child('profileurl').get().val()
+            flag = True
+            if profileurl == None:
+                flag = False
+        except:
+            pass
+
         return render(request, 'bookAlldetails.html',{'bookname':bookname,'authorname':authorname,'imgUrl':imgUrl,'sellingprice':sellingprice,
-                                                      'rentingprice':rentingprice,'renttime':renttime,'address':address})
+                                                      'rentingprice':rentingprice,'renttime':renttime,'address':address,'booktype':booktype,
+                                                      'wp':wp,'zipcode':zipcode,'city':city,'state':state,'flag':flag,'img':profileurl,
+                                                      'email':email,'name':name,'mob':phone})
 
     except:
         messages.info(request, "oops somthing went wong! Please login")
@@ -385,6 +419,23 @@ def addCart(request,id):
         messages.info(request, "oops!! somthing went wrong, Please login")
         return redirect('/')
 
+def delete(request,id):
+
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+
+        imgurl = database.child('books4All').child('booksDetails').child(id).child('imgUrl').get().val()
+        splitimg = imgurl.split('/')[7]
+        splitimgX = splitimg.split('?')[0]
+
+        firebase.storage().delete(splitimgX,idtoken)
+        database.child('books4All').child('Cart').child(a).child(id).remove()
+        database.child('books4All').child('booksDetails').child(id).remove()
+
+        return redirect('http://127.0.0.1:8000/mysold/')
+
+
 def myCart(request):
 
     try:
@@ -444,6 +495,10 @@ def myCart(request):
 def search(request):
     stateget = request.POST.get('state');
     cityget = request.POST.get('city');
+    booktypeget = request.POST.get('booktype');
+    buyrentget = request.POST.get('buyrent');
+    Lowerget = request.POST.get('Lower');
+    Upperget = request.POST.get('Upper');
 
     flagCity = True;
 
@@ -460,7 +515,285 @@ def search(request):
 
         city = database.child('books4All').child('booksDetails').child(i).child('city').get().val()
         state = database.child('books4All').child('booksDetails').child(i).child('state').get().val()
-        if city == cityget and state == stateget:
+        booktype = database.child('books4All').child('booksDetails').child(i).child('booktype').get().val()
+        sellingprice = database.child('books4All').child('booksDetails').child(i).child('sellingprice').get().val()
+        rentingprice = database.child('books4All').child('booksDetails').child(i).child('rentingprice').get().val()
+
+
+
+        if buyrentget == 'Buy' and stateget == "SelectState" and booktypeget == "sall":
+            if int(sellingprice) <= int(Upperget) and int(sellingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Buy' and stateget == state and city==cityget and booktypeget == "sall":
+            if int(sellingprice) <= int(Upperget) and int(sellingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Buy' and stateget == "SelectState" and booktypeget == booktype:
+            if int(sellingprice) <= int(Upperget) and int(sellingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Buy' and stateget == state and city==cityget and booktypeget == booktypeget:
+            if int(sellingprice) <= int(Upperget) and int(sellingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Rent' and stateget == "SelectState" and booktypeget == "sall":
+            if int(rentingprice) <= int(Upperget) and int(rentingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Rent' and stateget == state and city==cityget and booktypeget == "sall":
+            if int(rentingprice) <= int(Upperget) and int(rentingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Rent' and stateget == "SelectState" and booktypeget == booktype:
+            if int(rentingprice) <= int(Upperget) and int(rentingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif buyrentget == 'Rent' and stateget == state and city==cityget and booktypeget == booktype:
+            if int(rentingprice) <= int(Upperget) and int(rentingprice) >= int(Lowerget):
+                print("yes")
+                flagCity = False
+                bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+                authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+                imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+                sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'sellingprice').get().val()
+                rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                    'rentingprice').get().val()
+                renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+                address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+                key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+                if len(bookname) > 14:
+                    bookname = bookname[0:14] + '..'
+
+                if len(authorname) > 15:
+                    authorname = authorname[0:15] + '..'
+
+                if len(address) > 24:
+                    address = address[0:24] + '..'
+
+                col.append(bookname)
+                col.append(authorname)
+                col.append(imgUrl)
+                col.append(sellingprice)
+                col.append(rentingprice)
+                col.append(renttime)
+                col.append(address)
+                col.append(key)
+                bookdetails_row.append(col)
+
+        elif city == cityget and state == stateget and booktype == booktypeget:
             flagCity = False
             bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
             authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
@@ -490,6 +823,98 @@ def search(request):
             col.append(key)
             bookdetails_row.append(col)
 
+        elif city == cityget and state == stateget and booktypeget == "sall":
+            flagCity = False
+            bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+            authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+            imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+            sellingprice = database.child('books4All').child('booksDetails').child(i).child('sellingprice').get().val()
+            rentingprice = database.child('books4All').child('booksDetails').child(i).child('rentingprice').get().val()
+            renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+            address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+            key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+            if len(bookname) > 14:
+                bookname = bookname[0:14] + '..'
+
+            if len(authorname) > 15:
+                authorname = authorname[0:15] + '..'
+
+            if len(address) > 24:
+                address = address[0:24] + '..'
+
+            col.append(bookname)
+            col.append(authorname)
+            col.append(imgUrl)
+            col.append(sellingprice)
+            col.append(rentingprice)
+            col.append(renttime)
+            col.append(address)
+            col.append(key)
+            bookdetails_row.append(col)
+
+        elif stateget == "SelectState" and booktypeget == booktype:
+            flagCity = False
+            bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+            authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+            imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+            sellingprice = database.child('books4All').child('booksDetails').child(i).child('sellingprice').get().val()
+            rentingprice = database.child('books4All').child('booksDetails').child(i).child('rentingprice').get().val()
+            renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+            address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+            key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+            if len(bookname) > 14:
+                bookname = bookname[0:14] + '..'
+
+            if len(authorname) > 15:
+                authorname = authorname[0:15] + '..'
+
+            if len(address) > 24:
+                address = address[0:24] + '..'
+
+            col.append(bookname)
+            col.append(authorname)
+            col.append(imgUrl)
+            col.append(sellingprice)
+            col.append(rentingprice)
+            col.append(renttime)
+            col.append(address)
+            col.append(key)
+            bookdetails_row.append(col)
+
+        elif booktypeget == "sall" and stateget == "SelectState":
+            flagCity = False
+            bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+            authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+            imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+            sellingprice = database.child('books4All').child('booksDetails').child(i).child('sellingprice').get().val()
+            rentingprice = database.child('books4All').child('booksDetails').child(i).child('rentingprice').get().val()
+            renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+            address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+            key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+
+            if len(bookname) > 14:
+                bookname = bookname[0:14] + '..'
+
+            if len(authorname) > 15:
+                authorname = authorname[0:15] + '..'
+
+            if len(address) > 24:
+                address = address[0:24] + '..'
+
+            col.append(bookname)
+            col.append(authorname)
+            col.append(imgUrl)
+            col.append(sellingprice)
+            col.append(rentingprice)
+            col.append(renttime)
+            col.append(address)
+            col.append(key)
+            bookdetails_row.append(col)
+
+
+
     if flagCity == True:
         return render(request, "searchbycity.html", {'bookdetails': bookdetails_row, 'flagCity': flagCity})
     else:
@@ -498,5 +923,125 @@ def search(request):
 
 def editprofile(request):
     return render(request,"editprofile.html")
+
+
+def addrent(request,id):
+
+    try:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+
+        bookdetails = database.child('books4All').child('booksDetails').child(id).update({'addrent':1})
+        return redirect('http://127.0.0.1:8000/mysold/')
+    except:
+        messages.info(request, "oops!! somthing went wrong, Please login")
+        return redirect('/')
+
+
+def removerent(request,id):
+    try:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+
+        bookdetails = database.child('books4All').child('booksDetails').child(id).update({'addrent': 0})
+        return redirect('http://127.0.0.1:8000/mysold/')
+    except:
+        messages.info(request, "oops!! somthing went wrong, Please login")
+        return redirect('/')
+
+
+def seeAll(request):
+    try:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+
+        bookdetails = database.child('books4All').child('booksDetails').shallow().get().val()
+        print(bookdetails)
+
+        # convert dict to list and get value
+        listOfBookdetail = []
+        for i in bookdetails:
+            listOfBookdetail.append(i)
+
+        bookdetails_row = []
+        for i in listOfBookdetail:
+            col = []
+
+            bookname = database.child('books4All').child('booksDetails').child(i).child('bookname').get().val()
+            authorname = database.child('books4All').child('booksDetails').child(i).child('authorname').get().val()
+            imgUrl = database.child('books4All').child('booksDetails').child(i).child('imgUrl').get().val()
+            sellingprice = database.child('books4All').child('booksDetails').child(i).child(
+                'sellingprice').get().val()
+            rentingprice = database.child('books4All').child('booksDetails').child(i).child(
+                'rentingprice').get().val()
+            renttime = database.child('books4All').child('booksDetails').child(i).child('renttime').get().val()
+            address = database.child('books4All').child('booksDetails').child(i).child('address').get().val()
+            key = database.child('books4All').child('booksDetails').child(i).child('key').get().val()
+            addrent = database.child('books4All').child('booksDetails').child(i).child('addrent').get().val()
+            print(addrent)
+
+            if len(bookname) > 14:
+                bookname = bookname[0:14] + '..'
+
+            if len(authorname) > 15:
+                authorname = authorname[0:15] + '..'
+
+            if len(address) > 24:
+                address = address[0:24] + '..'
+
+            col.append(bookname)
+            col.append(authorname)
+            col.append(imgUrl)
+            col.append(sellingprice)
+            col.append(rentingprice)
+            col.append(renttime)
+            col.append(address)
+            col.append(key)
+            col.append(addrent)
+            bookdetails_row.append(col)
+
+        cityget = 0
+        stateget = 0
+
+        return render(request, 'home.html',{'bookdetails':bookdetails_row,'cityLogin':cityget,'stateLogin':stateget})
+    except:
+        return redirect('/')
+
+
+def delcart(request,id):
+    try:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+
+        database.child('books4All').child('Cart').child(a).child(id).remove()
+
+        return redirect('http://127.0.0.1:8000/mycart/')
+    except:
+        messages.info(request, "oops!! somthing went wrong, Please login")
+        return redirect('/')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

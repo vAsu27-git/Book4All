@@ -290,6 +290,8 @@
         aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <input type="image" src="{%static 'man_icon.png' %}" class="icon-profile"
+        onclick="location.href='{% url 'profile' %}'">
       <a class="navbar-brand nav-font-co color-nav-item" href="">Book4All</a>
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
@@ -299,6 +301,9 @@
           </li>
          <li class="nav-item">
             <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
           </li>
           <li class="nav-item">
             <a class="nav-link color-nav-item" href="#">Contact Us</a>
@@ -321,7 +326,7 @@
       <div class="col-lg-3 col-md-6 col-sm-12" id="center-book-item">
         <a href="/bookdetails/{{x.7}}" class="card-href">
           <div class="card">
-            <a><div class="cart"><img src="{%static 'delete.png' %}" height="30px" width="30px"></div></a>
+            <a href="/delcart/{{x.7}}"><div class="cart" ><img src="{%static 'delete.png' %}" height="30px" width="30px"></div></a>
             <img class="card-img-top" src='{{x.2}}' alt="Card image cap" height="200px" width="74px">
             <div class="card-body">
               <div class="bookname">

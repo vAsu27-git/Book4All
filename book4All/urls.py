@@ -30,7 +30,12 @@ urlpatterns = [
     path('mysold/',views.mysoldbook),
     path('bookdetails/<str:id>/',views.bookalldetails),
     path('addcart/<str:id>',views.addCart),
+    path('delete/<str:id>',views.delete),
     path('mycart/',views.myCart),
     path('profile/editprofile/',views.editprofile,name="editprofile"),
-    path('home/search/',views.search)
+    path('home/search/',views.search),
+    path('addrent/<str:id>/',views.addrent,name="addrent"),
+    path('removerent/<str:id>/',views.removerent),
+    path('seeAll/',views.seeAll,name="seeAll"),
+    path('delcart/<str:id>/',views.delcart)
 ]
