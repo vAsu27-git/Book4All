@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap" rel="stylesheet">
 
   <style>
     .rentdiv {
@@ -23,8 +26,31 @@
       z-index: 3;
     }
 
+    .form-group span {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 19px;
+    }
+
+    .my-div-lesspadding {
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+    }
+
     body {
       background-color: whitesmoke;
+    }
+
+    #myFilter {
+      height: 25px;
+      width: 25px;
+      margin-left: 5px;
+      margin-top: -8px;
+    }
+
+    #myDIV {
+      border: 1px solid black;
+      margin: 0px 10px;
+      padding: 25px 10px 0px 10px;
     }
 
     .header-button {
@@ -337,10 +363,6 @@
             <a class="nav-link disabled color-nav-item" href="#">About App</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button><br>
-        </form>
 
         <button type="button" class="btn btn-success col-md-4 col-lg-1 col-sm-6 header-button"
           onclick="location.href='{% url 'logout' %}'">Logout</button>
@@ -358,11 +380,15 @@
 
 
 
-  <div class="container">
-    <form class="filter" method="POST" action="/home/search/">
+  <div class="container-fluid filter">
+    <div class="row">
+      <div class="form-group col-md-4 col-lg-2"><span>ADD-FILTER</span><img src="{%static 'plus.png' %}" id="myFilter"
+          alt=""></div>
+    </div>
+    <form method="POST" action="/home/search/">
       {% csrf_token %}
-      <div class="row">
-        <div class="form-group col-md-4 col-lg-3">
+      <div class="row myfilterlist" id="myDIV">
+        <div class="form-group col-md-4 col-lg-2">
           <label for="ForRent">Add Buy or Rent</label>
           <select id="ForRent" class="form-control state-city" name="buyrent">
             <option value="borr">Select buy or rent</option>
@@ -370,37 +396,36 @@
             <option value="Rent">Rent</option>
           </select>
         </div>
-        <div class="form-group col-md-4 col-lg-3">
+        <div class="form-group col-md-4 col-lg-1">
           <label for="exampleInputNumber">Lower Price</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Add Lower Price"
-                  name="Lower">
+          <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Lower" name="Lower">
         </div>
-        <div class="form-group col-md-4 col-lg-3">
+        <div class="form-group col-md-4 col-lg-1">
           <label for="exampleInputNumber">Upper Price</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Add Upper Price"
-                  name="Upper">
+          <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Upper" name="Upper">
         </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-md-4 col-lg-3">
-          <label for="inputbooktype">Book Type</label>
-          <select id="inputbooktype" class="form-control state-city" name="booktype">
-            <option value="sall">Select All</option>
-            <option value="Myth">Myth</option>
-            <option value="Romance">Romance</option>
-            <option value="Novel">Novel</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Biography">Biography</option>
-            <option value="Fairy-Tale">Fairy-Tale</option>
-            <option value="Drama">Drama</option>
-            <option value="History">History</option>
-            <option value="Western">Western</option>
-            <option value="Poems">Poems</option>
-            <option value="Non-Fiction">Non-Fiction</option>
-            <option value="other">Other</option>
-          </select>
+
+        <div class="form-group col-md-4 col-lg-1 my-div-lesspadding">
+          <label for="inputbooktype">Book Type</label> <br>
+          <label><input type="checkbox" value="Myth" name="booktype">&nbsp;Myth</label>
+          <label><input type="checkbox" value="Romance" name="booktype">&nbsp;Romance</label>
+          <label><input type="checkbox" value="Novel" name="booktype">&nbsp;Novel</label>
+          <label><input type="checkbox" value="Fiction" name="booktype">&nbsp;Fiction</label>
+          <label><input type="checkbox" value="Biography" name="booktype">&nbsp;Biography</label>
+          <label><input type="checkbox" value="History" name="booktype">&nbsp;History</label>
         </div>
-          <div class="form-group col-md-4 col-lg-3">
+
+        <div class="form-group col-md-4 col-lg-1 my-div-lesspadding" style="padding-top: 10px;">
+          <br>
+          <label><input type="checkbox" value="Fairy-Tale" name="booktype">&nbsp;Fairy-Tale</label>
+          <label><input type="checkbox" value="Drama" name="booktype">&nbsp;Drama</label>
+          <label><input type="checkbox" value="Western" name="booktype">&nbsp;Western</label>
+          <label><input type="checkbox" value="Poems" name="booktype">&nbsp;Poems</label>
+          <label><input type="checkbox" value="Non-Fiction" name="booktype">&nbsp;Non-Fiction</label>
+          <label><input type="checkbox" value="other" name="booktype">&nbsp;Other</label>
+        </div>
+
+        <div class="form-group col-md-4 col-lg-2">
           <label for="inputState">State</label>
           <select class="form-control state-city" id="inputState" name="state">
             <option value="SelectState">Select State</option>
@@ -443,13 +468,13 @@
             <option value="Pondicherry">Pondicherry</option>
           </select>
         </div>
-        <div class="form-group col-md-4 col-lg-3">
+        <div class="form-group col-md-4 col-lg-2">
           <label for="inputDistrict">District</label>
           <select class="form-control state-city" id="inputDistrict" name="city">
             <option value="">-- select one -- </option>
           </select>
         </div>
-        <div class="form-group-submit col-md-4 col-lg-3">
+        <div class="form-group-submit col-md-4 col-lg-2">
           <button type="submit" class="btn btn-primary">Search</button>
           <button type="button" class="btn btn-primary" onclick="location.href='{% url 'seeAll' %}'">Show All</button>
         </div>
@@ -470,7 +495,7 @@
         </a>
         <a href="/bookdetails/{{x.7}}" class="card-href">
           {% if x.8 %}
-            <div class="rentdiv">Currently Unavailable</div>
+          <div class="rentdiv">Currently Unavailable</div>
           {% endif %}
 
           <div class="card">
@@ -522,6 +547,23 @@
     crossorigin="anonymous"></script>
 
   <script>
+
+    var btn = document.getElementById('myFilter');
+    var div = document.getElementById('myDIV');
+    div.style.display = 'none';
+
+    btn.addEventListener('click', () => {
+      if (div.style.display === 'none') {
+        div.style.display = 'flex';
+        btn.src = "{%static 'minus.png' %}";
+      }
+      else {
+        div.style.display = 'none';
+        btn.src = "{%static 'plus.png' %}";
+      }
+    })
+
+
     var AndraPradesh = ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Prakasam", "Nellore", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari"];
     var ArunachalPradesh = ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kra Daadi", "Kurung Kumey", "Lohit", "Longding", "Lower Dibang Valley", "Lower Subansiri", "Namsai", "Papum Pare", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang", "Itanagar"];
     var Assam = ["Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup Metropolitan", "Kamrup (Rural)", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Dima Hasao", "Sivasagar", "Sonitpur", "South Salmara Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"];
@@ -559,6 +601,7 @@
     var Delhi = ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"];
     var Lakshadweep = ["Lakshadweep"];
     var Puducherry = ["Karaikal", "Mahe", "Puducherry", "Yanam"];
+
 
 
     $("#inputState").change(function () {
