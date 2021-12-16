@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Roboto+Mono:wght@600&display=swap"
+        rel="stylesheet">
+
+    <title>Boo4All</title>
+    <style>
+        body {
+            background-color: #33F7FF;
+        }
+
+        .header-button {
+            margin-left: 10px;
+        }
+
+        .icon-profile {
+            margin-right: 10px;
+            height: 35px;
+            width: 35px;
+        }
+
+        section h1 {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        section img {
+            height: 471px;
+            width: 622px;
+            margin-left: 26px;
+            margin-top: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+
+        .grid-item:nth-child(2) {
+            font-family: 'Raleway', sans-serif;
+            font-size: 28px;
+            text-align: justify;
+            padding: 62px 67px 30px 50px;
+        }
+       .grid-container div:nth-child(2) img{
+           
+       }
+       .img-book{
+           text-align: center;
+       }
+       .img-book img{
+           border: 2px solid white;
+        border-radius: 50%;
+           height: 80px;
+           width: 80px;
+           text-align: center;
+       }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <input type="image" src="{%static 'man_icon.png' %}" class="icon-profile"
+                onclick="location.href='{% url 'profile' %}'">
+            <a class="navbar-brand" href="#">Book4All</a>
+
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="/coreteam/">Core Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="/aboutapp/">About App</a>
+                    </li>
+                </ul>
+
+                <button type="button" class="btn btn-success col-md-5 col-lg-1 col-sm-12 header-button"
+                    onclick="location.href='{% url 'logout' %}'">Logout</button>
+
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <h1>BOOK4All</h1>
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="{%static 'indiamap.png' %}" alt="">
+            </div>
+            <div class="grid-item">
+                <span>
+                Team want to develop this system because many people can't buy new books every time so they can purchase
+                old books and also sell these books again. Easily create network between different users.You can contact
+                to your favourite user easily.
+            </span>
+                <br>
+                <hr>
+                <div class="img-book">
+                    <img src="{%static 'playstore.png' %}" alt=""> <br>
+                    Love books just like your friends..!! <br>
+                    Get if from here ❤
+                </div>                
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

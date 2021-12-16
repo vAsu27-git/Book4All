@@ -109,13 +109,10 @@
             <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
           </li>
                     <li class="nav-item">
-                        <a class="nav-link color-nav-item" href="#">Contact Us</a>
+                        <a class="nav-link disabled color-nav-item" href="/coreteam/">Core Team</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled color-nav-item" href="#">Core Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled color-nav-item" href="#">About App</a>
+                        <a class="nav-link disabled color-nav-item" href="/aboutapp/">About App</a>
                     </li>
                 </ul>
 
@@ -134,13 +131,20 @@
             <img src="{%static 'man_icon.png' %}" alt="" width="300px" height="300px" style="border-radius: 50%;">
             {% endif %}
             <div class="card-body">
-                <h2>Email: {{email}}</h2>
-                <h2>Name: {{name}}</h2>
-                <h2>Phone: {{mob}}</h2>
-                <div class="card-body-center">
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'editprofile' %}'">Edit Profile</button>
-                    <button type="button" class="btn btn-primary">Delete Account</button>
-                </div>
+                <table>
+                    <tr>
+                        <td><h2>Email:</h2></td>
+                        <td><h2 style="padding-left: 5px;">{{email}}</h2></td>
+                    </tr>
+                    <tr>
+                        <td><h2>Name:</h2></td>
+                        <td><h2 style="padding-left: 5px;">{{name}}</h2></td>
+                    </tr>
+                    <tr>
+                        <td><h2>Phone:</h2></td>
+                        <td><h2 style="padding-left: 5px;">{{mob}}</h2></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </section>
