@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Roboto+Mono:wght@600&display=swap"
+        rel="stylesheet">
+
+    <title>Boo4All</title>
+    <style>
+        body {
+            background-color: #33F7FF;
+        }
+
+        .header-button {
+            margin-left: 10px;
+        }
+
+        .icon-profile {
+            margin-right: 10px;
+            height: 35px;
+            width: 35px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            padding: 10px;
+            margin-top: 50px;
+        }
+        .grid-container div{
+            text-align: center;
+        }
+        .grid-container img{
+            border-radius: 50%;
+        }
+        .item{
+            border:2px solid black;
+            border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 50px;   
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <input type="image" src="{%static 'man_icon.png' %}" class="icon-profile"
+                onclick="location.href='{% url 'profile' %}'">
+            <a class="navbar-brand" href="#">Book4All</a>
+
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link color-nav-item" href="/mysold/">My Sold Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link color-nav-item" href="/mycart/">My Cart</a>
+                    </li>
+        
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="/coreteam/">Core Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled color-nav-item" href="/aboutapp/">About App</a>
+                    </li>
+                </ul>
+
+                <button type="button" class="btn btn-success col-md-5 col-lg-1 col-sm-12 header-button"
+                    onclick="location.href='{% url 'logout' %}'">Logout</button>
+
+            </div>
+        </nav>
+    </header>
+
+    <section class="main">
+        <div class="grid-container">
+            <div class="item">
+                <img src="{%static 'aksh.jpg' %}" width="250px" height="250px" alt=""><br><br>
+                <h2>Mr. Aksh Maradiya</h2>
+                <p>Aksh Maradiya is currently doing B.Tech CE at GUNI Mehsana. He handle whole of database, backend system and fix error of Book4All</p>
+            </div>
+            <div class="item">
+                <img src="{%static 'vasu.jpg' %}" width="250px" height="250px" alt=""><br><br>
+                <h2>Mr. Vasu Hudka</h2>   
+                <p>Vasu Hudka is a student at GUNI Mehsana doing B.Tech in CE. He handle whole of design and checked out some scenario of Books4All</p>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+
+</html>

@@ -37,5 +37,7 @@ urlpatterns = [
     path('addrent/<str:id>/',views.addrent,name="addrent"),
     path('removerent/<str:id>/',views.removerent),
     path('seeAll/',views.seeAll,name="seeAll"),
-    path('delcart/<str:id>/',views.delcart)
+    path('delcart/<str:id>/',views.delcart),
+    path('aboutapp/',views.aboutapp),
+    path('coreteam/',views.coreteam)
 ]

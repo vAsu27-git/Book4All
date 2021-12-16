@@ -723,11 +723,11 @@ def delcart(request,id):
         messages.info(request, "oops!! somthing went wrong, Please login")
         return redirect('/')
 
+def aboutapp(request):
+    return render(request,'about.html')
 
-
-
-
-
+def coreteam(request):
+    return render(request,'coreteam.html')
 
 
 
